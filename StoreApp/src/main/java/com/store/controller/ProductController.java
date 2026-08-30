@@ -28,6 +28,7 @@ public class ProductController {
 
     }
 
+    //get mapping
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Product>> getProducts(){
 
