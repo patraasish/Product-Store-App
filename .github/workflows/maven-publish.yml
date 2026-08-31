@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout Source
@@ -24,8 +24,6 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          server-id: github
-          settings-path: ${{ github.workspace }}
           cache: maven
 
       - name: Grant Execute Permission
@@ -43,11 +41,12 @@ jobs:
         run: |
           ./mvnw sonar:sonar \
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.projectKey=StoreApp
 
       - name: Publish to GitHub Packages
-        if: github.event_name == 'release'
+        if: github.ref == 'refs/heads/main'
         working-directory: StoreApp
-        run: ./mvnw deploy -s $GITHUB_WORKSPACE/settings.xml
+        run: ./mvnw deploy
         env:
           GITHUB_TOKEN: ${{ github.token }}
