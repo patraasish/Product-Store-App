@@ -58,6 +58,7 @@ public class ProductController {
 
     }
 
+    //delete mapping
     @DeleteMapping(value = "delete/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long id){
 
