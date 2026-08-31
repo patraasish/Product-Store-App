@@ -24,19 +24,17 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+          server-id: github
+          settings-path: ${{ github.workspace }}
           cache: maven
 
-      - name: Verify Project Structure
-        run: |
-          pwd
-          ls -la
-          find . -name "pom.xml"
-
       - name: Build and Test
-        run: mvn clean verify
+        working-directory: StoreApp
+        run: ./mvnw clean verify
 
-      # Optional SonarQube Scan
-      # - name: SonarQube Analysis
-      #   run: mvn sonar:sonar \
-      #     -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-      #     -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+      - name: Publish to GitHub Packages
+        if: github.event_name == 'release'
+        working-directory: StoreApp
+        run: ./mvnw deploy -s $GITHUB_WORKSPACE/settings.xml
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
