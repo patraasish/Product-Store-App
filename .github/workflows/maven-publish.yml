@@ -28,6 +28,10 @@ jobs:
           settings-path: ${{ github.workspace }}
           cache: maven
 
+      - name: Grant execute permission
+        working-directory: StoreApp
+        run: chmod +x mvnw
+        
       - name: Build and Test
         working-directory: StoreApp
         run: ./mvnw clean verify
