@@ -44,6 +44,7 @@ public class ProductController {
 
     }
 
+    //put mapping
     @PutMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateProductById(@PathVariable Long id, @RequestBody Product product){
